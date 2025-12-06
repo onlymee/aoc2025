@@ -27,7 +27,6 @@ for i in range(N):
 
 
 nums=[]
-print('Ops', lines[-1])
 skip = False
 for i in range(len(lines[-1])-1,-1,-1):
     if skip:
@@ -39,7 +38,7 @@ for i in range(len(lines[-1])-1,-1,-1):
     if num.strip():
         nums.append(int(num))
     else:
-        print('Huh?')
+        raise RuntimeError("Blank number shouldn't occur")
     if lines[-1][i]=='+':
         print(' + '.join([str(num) for num in nums]), " = ", sum(nums))
         answer2+=sum(nums)
@@ -56,7 +55,27 @@ for i in range(len(lines[-1])-1,-1,-1):
         raise RuntimeError("Argh")
     
 # Guess
-# 12608160008122
-# 12608160010122
+# 12608160008122 <- bad input file?
+# 12608160010122 <- bad input file?
+# 12608160008022
+
+#Better approach
+answer2=0
+tlines = reversed(list(map(lambda x: ''.join(x), zip(*lines))))
+acc=[]
+for line in tlines:
+    if not line.strip():
+        continue
+    op = None
+    if line[-1]=='+':
+        op=sum
+        line = line[:-1]
+    elif line[-1]=='*':
+        op=math.prod
+        line = line[:-1]
+    acc.append(int(line))
+    if op:
+        answer2+=op(acc)
+        acc=[]
 
 print(answer1,answer2)
