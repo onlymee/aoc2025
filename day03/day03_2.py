@@ -27,6 +27,5 @@ def findmax(bank,size) -> str:
 for line in lines:
     answer1 += int(findmax(line,2))
     answer2 += int(findmax(line,12))
-    
 
 print(answer1,answer2)
